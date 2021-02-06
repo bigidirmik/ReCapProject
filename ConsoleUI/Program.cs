@@ -20,7 +20,6 @@ namespace ConsoleUI
         }
     }
 }
-
 /*
             // Category Business (Abstract ve Concrete) eklenecek
             // Brand tamamı eklenecek
