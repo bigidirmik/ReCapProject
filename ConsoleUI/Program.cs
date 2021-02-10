@@ -1,6 +1,9 @@
 ﻿using Business.Concrete;
-using DataAccess.Concrete.InMemory;
+using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleUI
 {
@@ -8,58 +11,52 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            CarManager carManager = new CarManager(new EfCarDal());
 
-            CarManager carManager = new CarManager(new InMemoryCarDal());
-
+            Console.WriteLine("\n\t" + "----Model----" + "\t\t\t\t\t" + "----Günlük ücret----");
             foreach (var car in carManager.GetAll())
             {
-                Console.WriteLine("Araç: " + car.Description);
-                Console.WriteLine("Günlük Kiralama Bedeli: " + car.DailyPrice + " TL");
-                Console.WriteLine("---------");
+                Console.WriteLine(car.CarId + "\t" + car.Description + "\t" + car.DailyPrice + " TL");
+            }
+
+
+            CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+            
+            foreach (var category in categoryManager.GetAll())
+            {
+                Console.WriteLine(category.CategoryId + "\t" + category.CategoryName);
+            }
+
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine(brand.BrandId + "\t" + brand.BrandName);
+            }
+
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            
+            foreach (var color in colorManager.GetAll())
+            {
+                Console.WriteLine(color.ColorId + "\t" + color.ColorName);
+            }
+
+            foreach (var car in carManager.GetCarByCategoryId(4))
+            {
+                Console.WriteLine(car.Description);
+            }
+
+            foreach (var car in carManager.GetCarByBrandId(7))
+            {
+                Console.WriteLine(car.Description);
+            }
+
+            foreach (var car in carManager.GetCarByColorId(3))
+            {
+                Console.WriteLine(car.Description);
             }
         }
     }
 }
-/*
-            // Category Business (Abstract ve Concrete) eklenecek
-            // Brand tamamı eklenecek
-            // Color tamamı eklenecek
-
-            // Kategori bilgisi yazdırma eklenecek.
-
-            ID Kategoriler
-
-            1  Sedan
-            2  Coupe
-            3  Hatchback
-            4  Van
-            5  Pick-up
-            6  Station Wagon
-            7  Cabrio
-            8  SUV
-
-            ID Markalar
-
-            1  BMW
-            2  Dacia
-            3  Fiat
-            4  Ford
-            5  Mercedes-Benz
-            6  Mitsubishi
-            7  Nissan
-            8  Peugeot
-            9  Range Rover
-            10 Renault
-            11 Toyota
-            12 Volkswagen
-
-            ID Renkler
-            1  siyah
-            2  beyaz
-            3  kırmızı
-            4  sarı
-            5  mavi
-            6  bordo
-            7  krem
-            8  yeşil
-*/
