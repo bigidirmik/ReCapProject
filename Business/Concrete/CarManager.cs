@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -75,6 +76,11 @@ namespace Business.Concrete
         {
             Console.WriteLine("\nModel yılları {0} - {1} arası olan araçlar:\n", min, max);
             return _carDal.GetAll(car => car.ModelYear >= min && car.ModelYear <= max);
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            return _carDal.GetCarDetails();
         }
 
         public void Update(Car car)
