@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -14,47 +16,53 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             if (color.ColorName.Length > 2)
             {
                 _colorDal.Add(color);
-                Console.WriteLine("Renk eklendi!");
+                return new SuccessResult(Messages.ColorAdded);
             }
             else
             {
-                Console.WriteLine("Lütfen 2 karakterden uzun bir renk giriniz!");
+                return new ErrorResult(Messages.ColorInvalid);
             }
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
-            Console.WriteLine("Renk silindi!");
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            Console.WriteLine("\nRenkler:\n");
-            return _colorDal.GetAll();
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),Messages.ColorsListed);
         }
 
-        public Color GetColorById(int id)
+        public IDataResult<Color> GetColorById(int id)
         {
-            Console.WriteLine("\nID'si {0} olan renk:\n", id);
-            return _colorDal.Get(col => col.ColorId == id);
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<Color>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<Color>(_colorDal.Get(col => col.ColorId == id));
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             if (color.ColorName.Length > 2)
             {
                 _colorDal.Update(color);
-                Console.WriteLine("Renk güncellendi!");
+                return new SuccessResult(Messages.ColorUpdated);
             }
             else
             {
-                Console.WriteLine("Lütfen 2 karakterden uzun bir renk giriniz!");
+                return new ErrorResult(Messages.ColorInvalid);
             }
         }
     }
