@@ -1,6 +1,8 @@
 ﻿using Business.Concrete;
+using Business.Constants;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,52 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            GetCarDetailsTest();
-
+            //GetCarDetailsTest();
             //CategoryManagerTest();
             //BrandManagerTest();
             //ColorManagerTest();
             //GetByTests(carManager);
+
+            UserManager userManager = new UserManager(new EfUserDal());
+            //userManager.Add(new User { UserId = 1, FirstName = "Bilal", LastName = "DIRMIK", Email = "bigisivri@outlook.com", Password = "12345" });
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            //customerManager.Add(new Customer { UserId = 1, CompanyName = "Bigi'nin Çokolat Fabrikası" });
+
+            
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            
+
+            Console.WriteLine("Kiralamak istediğiniz araç için ID giriniz!");
+            int carAddId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Müşteri ID numaranızı giriniz!");
+            int customerId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Başlangıç tarihi:");
+            DateTime rentDate = DateTime.Parse(Console.ReadLine());
+
+            Console.WriteLine("Teslim tarihi:");
+            DateTime returnDate = DateTime.Parse(Console.ReadLine());
+
+
+            // Hatalı!
+            
+            int result = rentalManager.GetRentalByCarId(carAddId).Data.CarId; 
+
+            if (result != carAddId && result == null)
+            {
+                rentalManager.Add(new Rental { CarId = carAddId, CustomerId = customerId, RentDate = rentDate, ReturnDate = returnDate });
+                Console.WriteLine(Messages.RentalAdded);
+            }
+            else
+            {
+                Console.WriteLine(Messages.RentalInvalid);
+            }
         }
+
+
+
 
         private static void GetCarDetailsTest()
         {
