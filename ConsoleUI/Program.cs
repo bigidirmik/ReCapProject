@@ -27,7 +27,6 @@ namespace ConsoleUI
 
             
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            
 
             Console.WriteLine("Kiralamak istediğiniz araç için ID giriniz!");
             int carAddId = Convert.ToInt32(Console.ReadLine());
@@ -35,26 +34,14 @@ namespace ConsoleUI
             Console.WriteLine("Müşteri ID numaranızı giriniz!");
             int customerId = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Başlangıç tarihi:");
-            DateTime rentDate = DateTime.Parse(Console.ReadLine());
-
-            Console.WriteLine("Teslim tarihi:");
-            DateTime returnDate = DateTime.Parse(Console.ReadLine());
-
-
-            // Hatalı!
-            
-            int result = rentalManager.GetRentalByCarId(carAddId).Data.CarId; 
-
-            if (result != carAddId && result == null)
+            Rental rentalAdd = new Rental
             {
-                rentalManager.Add(new Rental { CarId = carAddId, CustomerId = customerId, RentDate = rentDate, ReturnDate = returnDate });
-                Console.WriteLine(Messages.RentalAdded);
-            }
-            else
-            {
-                Console.WriteLine(Messages.RentalInvalid);
-            }
+                CarId = carAddId,
+                CustomerId = customerId,
+                RentDate = DateTime.Now,
+                ReturnDate = null
+            };
+            Console.WriteLine(rentalManager.Add(rentalAdd).Message);
         }
 
 

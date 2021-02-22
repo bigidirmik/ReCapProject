@@ -3,6 +3,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Abstract
@@ -10,10 +11,10 @@ namespace Business.Abstract
     public interface IRentalService
     {
         IDataResult<List<Rental>> GetAll();
-        IDataResult<Rental> GetRentalById(int id);
+        IDataResult<Rental> GetRentalById(int rentalId);
         IDataResult<Rental> GetRentalByCarId(int carId);
 
-        IDataResult<List<RentalDetailDto>> GetRentalDetails();
+        IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null);
 
         IResult Add(Rental rental);
         IResult Update(Rental rental);

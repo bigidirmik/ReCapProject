@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -56,13 +57,13 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserId == id));
         }
 
-        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails(Expression<Func<Customer, bool>> filter = null)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<CustomerDetailDto>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(), Messages.CustomersListed);
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(filter), Messages.CustomersListed);
         }
 
         public IResult Update(Customer customer)

@@ -44,13 +44,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),Messages.ColorsListed);
         }
 
-        public IDataResult<Color> GetColorById(int id)
+        public IDataResult<Color> GetColorById(int colorId)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<Color>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<Color>(_colorDal.Get(col => col.ColorId == id));
+            return new SuccessDataResult<Color>(_colorDal.Get(col => col.ColorId == colorId));
         }
 
         public IResult Update(Color color)

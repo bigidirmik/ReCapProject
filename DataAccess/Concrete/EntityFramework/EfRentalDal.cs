@@ -2,44 +2,54 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, RentACarContext>, IRentalDal
     {
-        public List<RentalDetailDto> GetRentalDetails()
+        public List<RentalDetailDto> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
             using (RentACarContext context = new RentACarContext())
             {
-                var result = from re in context.Rentals
+                var result = from rnt in filter == null ? context.Rentals : context.Rentals.Where(filter)
 
-                             join cr in context.Cars
-                             on re.CarId equals cr.CarId
+                             join car in context.Cars
+                             on rnt.CarId equals car.CarId
 
-                             join ct in context.Categories
-                             on cr.CategoryId equals ct.CategoryId
+                             join cat in context.Categories
+                             on car.CategoryId equals cat.CategoryId
 
-                             join br in context.Brands
-                             on cr.BrandId equals br.BrandId
+                             join brn in context.Brands
+                             on car.BrandId equals brn.BrandId
 
-                             join co in context.Colors
-                             on cr.ColorId equals co.ColorId
+                             join clr in context.Colors
+                             on car.ColorId equals clr.ColorId
 
-                             join cu in context.Customers
-                             on re.CustomerId equals cu.CustomerId
+                             join cus in context.Customers
+                             on rnt.CustomerId equals cus.CustomerId
+
+                             join usr in context.Users
+                             on cus.UserId equals usr.UserId
+
 
                              select new RentalDetailDto
                              {
-                                 Id = re.Id,
-                                 CarId = cr.CarId,
-                                 CategoryName = ct.CategoryName,
-                                 BrandName = br.BrandName,
-                                 ColorName = co.ColorName,
-                                 CompanyName = cu.CompanyName,
-                                 ModelYear = cr.ModelYear,
-                                 Description = cr.Description
+                                 RentalId = rnt.RentalId,
+                                 CarId = car.CarId,
+                                 CategoryName = cat.CategoryName,
+                                 BrandName = brn.BrandName,
+                                 ColorName = clr.ColorName,
+                                 CompanyName = cus.CompanyName,
+                                 ModelYear = car.ModelYear,
+                                 Description = car.Description,
+                                 UserName = usr.FirstName + " " + usr.LastName, 
+                                 CustomerName = cus.CompanyName,
+                                 RentDate = rnt.RentDate,
+                                 ReturnDate = rnt.ReturnDate
                              };
                 return result.ToList();
             }

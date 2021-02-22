@@ -46,13 +46,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),Messages.BrandsListed);
         }
 
-        public IDataResult<Brand> GetBrandById(int id)
+        public IDataResult<Brand> GetBrandById(int brandId)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<Brand>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<Brand>(_brandDal.Get(br => br.BrandId == id));
+            return new SuccessDataResult<Brand>(_brandDal.Get(br => br.BrandId == brandId));
         }
 
         public IResult Update(Brand brand)

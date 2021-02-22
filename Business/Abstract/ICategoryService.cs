@@ -9,7 +9,7 @@ namespace Business.Abstract
     public interface ICategoryService
     {
         IDataResult<List<Category>> GetAll();
-        IDataResult<Category> GetCategoryById(int id);
+        IDataResult<Category> GetCategoryById(int categoryId);
 
         IResult Add(Category category);
         IResult Update(Category category);

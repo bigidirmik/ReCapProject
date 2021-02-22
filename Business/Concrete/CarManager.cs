@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -85,13 +86,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.DailyPrice >= min && car.DailyPrice <= max),Messages.CarsListed);
         }
 
-        public IDataResult<Car> GetCarById(int id)
+        public IDataResult<Car> GetCarById(int carId)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<Car>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<Car>(_carDal.Get(car => car.CarId == id));
+            return new SuccessDataResult<Car>(_carDal.Get(car => car.CarId == carId));
         }
 
         public IDataResult<List<Car>> GetCarByModelYear(int min,int max)
@@ -103,13 +104,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ModelYear >= min && car.ModelYear <= max),Messages.CarsListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.CarsListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter),Messages.CarsListed);
         }
 
         public IResult Update(Car car)

@@ -46,13 +46,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoriesListed);
         }
 
-        public IDataResult<Category> GetCategoryById(int id)
+        public IDataResult<Category> GetCategoryById(int categoryId)
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<Category>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<Category>(_categoryDal.Get(cat => cat.CategoryId == id));
+            return new SuccessDataResult<Category>(_categoryDal.Get(cat => cat.CategoryId == categoryId));
         }
 
         public IResult Update(Category category)
