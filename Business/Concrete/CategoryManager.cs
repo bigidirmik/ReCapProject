@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,15 +22,10 @@ namespace Business.Concrete
 
         public IResult Add(Category category)
         {
-            if (category.CategoryName.Length>2)
-            {
-                _categoryDal.Add(category);
-                return new SuccessResult(Messages.CategoryAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CategoryInvalid);
-            }
+            ValidationTool.Validate(new CategoryValidator(), category);
+
+            _categoryDal.Add(category);
+            return new SuccessResult(Messages.CategoryAdded);
         }
 
         public IResult Delete(Category category)
@@ -43,7 +40,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<Category>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoriesListed);
+            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(), Messages.CategoriesListed);
         }
 
         public IDataResult<Category> GetCategoryById(int categoryId)
@@ -57,15 +54,10 @@ namespace Business.Concrete
 
         public IResult Update(Category category)
         {
-            if (category.CategoryName.Length > 2)
-            {
-                _categoryDal.Update(category);
-                return new SuccessResult(Messages.CategoryUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CategoryInvalid);
-            }
+            ValidationTool.Validate(new CategoryValidator(), category);
+
+            _categoryDal.Update(category);
+            return new SuccessResult(Messages.CategoryUpdated);
         }
     }
 }

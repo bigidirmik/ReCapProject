@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,15 +24,10 @@ namespace Business.Concrete
 
         public IResult Add(Customer customer)
         {
-            if (customer.CompanyName.Length>2)
-            {
-                _customerDal.Add(customer);
-                return new SuccessResult(Messages.CustomerAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CustomerInvalid);
-            }
+            ValidationTool.Validate(new CustomerValidator(), customer);
+
+            _customerDal.Add(customer);
+            return new SuccessResult(Messages.CustomerAdded);
         }
 
         public IResult Delete(Customer customer)
@@ -45,7 +42,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(),Messages.CustomersListed);
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
         }
 
         public IDataResult<Customer> GetCustomerById(int id)
@@ -68,15 +65,10 @@ namespace Business.Concrete
 
         public IResult Update(Customer customer)
         {
-            if (customer.CompanyName.Length>2)
-            {
-                _customerDal.Update(customer);
-                return new SuccessResult(Messages.CustomerUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CustomerInvalid);
-            }
+            ValidationTool.Validate(new CustomerValidator(), customer);
+
+            _customerDal.Update(customer);
+            return new SuccessResult(Messages.CustomerUpdated);
         }
     }
 }

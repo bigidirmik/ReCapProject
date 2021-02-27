@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,15 +20,10 @@ namespace Business.Concrete
 
         public IResult Add(Color color)
         {
-            if (color.ColorName.Length > 2)
-            {
-                _colorDal.Add(color);
-                return new SuccessResult(Messages.ColorAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.ColorInvalid);
-            }
+            ValidationTool.Validate(new ColorValidator(), color);
+
+            _colorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         public IResult Delete(Color color)
@@ -41,7 +38,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),Messages.ColorsListed);
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
         }
 
         public IDataResult<Color> GetColorById(int colorId)
@@ -55,15 +52,10 @@ namespace Business.Concrete
 
         public IResult Update(Color color)
         {
-            if (color.ColorName.Length > 2)
-            {
-                _colorDal.Update(color);
-                return new SuccessResult(Messages.ColorUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.ColorInvalid);
-            }
+            ValidationTool.Validate(new ColorValidator(), color);
+
+            _colorDal.Update(color);
+            return new SuccessResult(Messages.ColorUpdated);
         }
     }
 }
