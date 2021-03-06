@@ -15,6 +15,7 @@ namespace Business.Constants
         public static string UserAdded = "Kullanıcı eklendi!";
         public static string CustomerAdded = "Şirket eklendi!";
         public static string RentalAdded = "Kiralama eklendi!";
+        public static string CarImageAdded = "Araç görseli eklendi!";
 
         //Deleted
         public static string CarDeleted = "Araç silindi!";
@@ -24,6 +25,7 @@ namespace Business.Constants
         public static string UserDeleted = "Kullanıcı silindi!";
         public static string CustomerDeleted = "Şirket silindi!";
         public static string RentalDeleted = "Kiralama silindi!";
+        public static string CarImageDeleted = "Araç görseli silindi!";
 
         //Updated
         public static string CarUpdated = "Araç güncellendi!";
@@ -33,15 +35,7 @@ namespace Business.Constants
         public static string UserUpdated = "Kullanıcı güncellendi!";
         public static string CustomerUpdated = "Şirket güncellendi!";
         public static string RentalUpdated = "Kiralama güncellendi!";
-
-        //NotAdded and NotUpdated and Invalid)
-        public static string CarInvalid = "Lütfen 2 karakterden uzun bir model adı ve 0'dan büyük ücret giriniz!";
-        public static string CategoryInvalid = "Lütfen 2 karakterden uzun bir kategori adı giriniz!";
-        public static string BrandInvalid = "Lütfen 2 karakterden uzun bir marka adı giriniz!";
-        public static string ColorInvalid = "Lütfen 2 karakterden uzun bir renk giriniz!";
-        public static string UserInvalid = "Lütfen 2 karakterden uzun bir isim giriniz!";
-        public static string CustomerInvalid = "Lütfen 2 karakterden uzun bir şirket adı giriniz!";
-        public static string RentalInvalid = "Bu araç henüz teslim edilmedi!";
+        public static string CarImageUpdated = "Araç görseli güncellendi!";
 
         //Listed
         public static string CarsListed = "Araçlar listelendi!";
@@ -51,8 +45,21 @@ namespace Business.Constants
         public static string UsersListed = "Kullanıcılar listelendi!";
         public static string CustomersListed = "Şirketler listelendi!";
         public static string RentalsListed = "Kiralamalar listelendi!";
+        public static string CarImagesListed = "Araç görselleri listelendi!";
+
+        //NotAdded and NotUpdated and Invalid)
+        public static string CarInvalid = "Lütfen 2 karakterden uzun bir model adı ve 0'dan büyük ücret giriniz!";
+        public static string CategoryInvalid = "Lütfen 2 karakterden uzun bir kategori adı giriniz!";
+        public static string BrandInvalid = "Lütfen 2 karakterden uzun bir marka adı giriniz!";
+        public static string ColorInvalid = "Lütfen 2 karakterden uzun bir renk giriniz!";
+        public static string UserInvalid = "Lütfen 2 karakterden uzun bir isim giriniz!";
+        public static string CustomerInvalid = "Lütfen 2 karakterden uzun bir şirket adı giriniz!";
+        public static string RentalInvalid = "Bu araç henüz teslim edilmedi!";
+        public static string CarImageLimitExceded = "Bir araç için yalnızca 5 adet resim yükleyebilirsiniz!";
+        public static string CarImageCarIdEmpty = "Geçersiz ID!";
 
         //Maintenance
         public static string MaintenanceTime = "Sistem bakımda!";
+        
     }
 }
