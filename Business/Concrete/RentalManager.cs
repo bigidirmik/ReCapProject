@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Business.Concrete
+namespace Business.Concrete // Secured Operation eklenmedi // [SecuredOperation("admin")]
 {
     public class RentalManager : IRentalService
     {
