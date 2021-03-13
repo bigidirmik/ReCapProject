@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from cust in context.Customers
                              join user in context.Users
-                             on cust.UserId equals user.UserId
+                             on cust.UserId equals user.Id
 
                              select new CustomerDetailDto
                              {
@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Email = user.Email,
-                                 Password = user.Password
+                                 Password = Convert.ToString(user.PasswordHash) // JWT ile bozulmuştu, yanlış olabilir.
                              };
                 return result.ToList();
             }
