@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -27,6 +28,8 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetAll();
             if (result.Success)
             {
@@ -38,6 +41,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbyid")]
         public IActionResult GetCarById(int carId)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarById(carId);
             if (result.Success)
             {
@@ -49,6 +54,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbycategoryid")]
         public IActionResult GetCarByCategoryId(int categoryId)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarByCategoryId(categoryId);
             if (result.Success)
             {
@@ -60,6 +67,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbybrandid")]
         public IActionResult GetCarByBrandId(int brandId)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarByBrandId(brandId);
             if (result.Success)
             {
@@ -71,6 +80,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbycolorid")]
         public IActionResult GetCarByColorId(int colorId)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarByColorId(colorId);
             if (result.Success)
             {
@@ -82,6 +93,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbymodelyear")]
         public IActionResult GetCarByModelYear(int min, int max)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarByModelYear(min, max);
             if (result.Success)
             {
@@ -93,6 +106,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcarbydailyprice")]
         public IActionResult GetCarByDailyPrice(decimal min, decimal max)
         {
+            Thread.Sleep(3000);
+
             var result = _carService.GetCarByDailyPrice(min, max);
             if (result.Success)
             {
@@ -102,9 +117,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcardetails")]
-        public IActionResult GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        public IActionResult GetCarDetails()
         {
-            var result = _carService.GetCarDetails(filter);
+            Thread.Sleep(3000);
+
+            var result = _carService.GetCarDetails();
             if (result.Success)
             {
                 return Ok(result);

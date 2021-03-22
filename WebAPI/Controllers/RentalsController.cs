@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -24,6 +25,8 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            Thread.Sleep(3000);
+
             var result = _rentalService.GetAll();
             if (result.Success)
             {
@@ -35,6 +38,8 @@ namespace WebAPI.Controllers
         [HttpGet("getrentalbyid")]
         public IActionResult GetRentalById(int rentalId)
         {
+            Thread.Sleep(3000);
+
             var result = _rentalService.GetRentalById(rentalId);
             if (result.Success)
             {
@@ -46,6 +51,8 @@ namespace WebAPI.Controllers
         [HttpGet("getrentalbycarid")]
         public IActionResult GetRentalByCarId(int carId)
         {
+            Thread.Sleep(3000);
+
             var result = _rentalService.GetRentalByCarId(carId);
             if (result.Success)
             {
@@ -55,9 +62,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getrentaldetails")]
-        public IActionResult GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public IActionResult GetRentalDetails()
         {
-            var result = _rentalService.GetRentalDetails(filter);
+            Thread.Sleep(3000);
+
+            var result = _rentalService.GetRentalDetails();
             if (result.Success)
             {
                 return Ok(result);

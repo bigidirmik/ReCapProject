@@ -15,7 +15,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (RentACarContext context = new RentACarContext())
             {
-                var result = from car in filter == null ? context.Cars : context.Cars.Where(filter)
+                var result = from car in context.Cars
 
                              join cat in context.Categories
                              on car.CategoryId equals cat.CategoryId

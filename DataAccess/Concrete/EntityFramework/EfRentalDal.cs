@@ -11,11 +11,11 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, RentACarContext>, IRentalDal
     {
-        public List<RentalDetailDto> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public List<RentalDetailDto> GetRentalDetails() // rentaldal, controller, service, manager normalde filtre için bu kodu içeriyor, ancak postman deserialization hatası veriyor. ve manager'da add kısmında rental kontrolü yaptığımız add metodu da hata veriyor
         {
             using (RentACarContext context = new RentACarContext())
             {
-                var result = from rnt in filter == null ? context.Rentals : context.Rentals.Where(filter)
+                var result = from rnt in context.Rentals //filter == null ? context.Rentals : context.Rentals.Where(filter) üstteki expression kodu için bu şekilde
 
                              join car in context.Cars
                              on rnt.CarId equals car.CarId

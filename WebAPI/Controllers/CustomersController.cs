@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -24,6 +25,8 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            Thread.Sleep(3000);
+
             var result = _customerService.GetAll();
             if (result.Success)
             {
@@ -35,6 +38,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcustomerbyid")]
         public IActionResult GetCustomerById(int customerId)
         {
+            Thread.Sleep(3000);
+
             var result = _customerService.GetCustomerById(customerId);
             if (result.Success)
             {
@@ -46,6 +51,8 @@ namespace WebAPI.Controllers
         [HttpGet("getcustomerdetails")]
         public IActionResult GetCustomerDetails(Expression<Func<Customer, bool>> filter = null)
         {
+            Thread.Sleep(3000);
+
             var result = _customerService.GetCustomerDetails(filter);
             if (result.Success)
             {

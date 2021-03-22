@@ -25,7 +25,7 @@ namespace Business.Concrete // Secured Operation eklenmedi // [SecuredOperation(
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate == null && _rentalDal.GetRentalDetails(rntlDet => rntlDet.CarId == rental.CarId).Count > 0)
+            if (rental.ReturnDate == null) //&& _rentalDal.GetRentalDetails(rntlDet => rntlDet.CarId == rental.CarId).Count > 0) postman expression olduğu için hata veriyor.
             {
                 return new ErrorResult(Messages.RentalInvalid);
             }
@@ -69,13 +69,13 @@ namespace Business.Concrete // Secured Operation eklenmedi // [SecuredOperation(
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == rentalId));
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<RentalDetailDto>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter), Messages.RentalsListed);
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.RentalsListed);
         }
 
         [ValidationAspect(typeof(RentalValidator))]

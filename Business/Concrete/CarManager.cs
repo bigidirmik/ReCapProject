@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Linq;
 
 namespace Business.Concrete
 {
@@ -64,7 +65,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect] // key, value pair ile bellekte tutulur
-        [PerformanceAspect(5)] // verdiğimiz 5 saniye aspect içindeki interval 'dir. // Bu Aspect'i core.utilities.inteceptors da AspectInterceptor'e koyarsak (classattributes.add) her yerde çalışır.
+        //[PerformanceAspect(5)] // verdiğimiz 5 saniye aspect içindeki interval 'dir. // Bu Aspect'i core.utilities.inteceptors da AspectInterceptor'e koyarsak (classattributes.add) her yerde çalışır.
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
@@ -132,13 +133,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ModelYear >= min && car.ModelYear <= max),Messages.CarsListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
             }
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter),Messages.CarsListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.CarsListed);
         }
 
         [SecuredOperation("admin")]
