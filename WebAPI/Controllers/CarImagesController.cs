@@ -21,6 +21,18 @@ namespace WebAPI.Controllers
             _carImageService = carImageService;
         }
 
+        [HttpGet("getimagebyid")]
+        public IActionResult GetImageById(int imageId)
+        {
+            Thread.Sleep(3000);
+
+            var result = _carImageService.GetImageById(imageId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
@@ -35,12 +47,12 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getcarimagebyid")]
-        public IActionResult GetCarImagesById(int carId)
+        [HttpGet("getimagesbycarid")]
+        public IActionResult GetImagesByCarId(int carId)
         {
             Thread.Sleep(3000);
 
-            var result = _carImageService.GetCarImagesById(carId);
+            var result = _carImageService.GetImagesByCarId(carId);
             if (result.Success)
             {
                 return Ok(result);
@@ -60,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("update")] // [HttpPost]
-        public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm(Name = ("Id"))] int id)
+        public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm(Name = ("Id"))] int imageId)
         {
-            var carImage = _carImageService.Get(id).Data;
+            var carImage = _carImageService.GetImageById(imageId).Data;
             var result = _carImageService.Update(file, carImage);
             if (result.Success)
             {
@@ -72,9 +84,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete")] // [HttpPost]
-        public IActionResult Delete([FromForm(Name = ("Id"))] int id)
+        public IActionResult Delete([FromForm(Name = ("Id"))] int imageId)
         {
-            var carImage = _carImageService.Get(id).Data;
+            var carImage = _carImageService.GetImageById(imageId).Data;
             var result = _carImageService.Delete(carImage);
             if (result.Success)
             {

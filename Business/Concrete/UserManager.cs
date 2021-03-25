@@ -72,7 +72,7 @@ namespace Business.Concrete // Secured Operation eklenmedi // [SecuredOperation(
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
 
-        public IDataResult<User> GetByMail(string email)
+        public IDataResult<User> GetUserByMail(string email)
         {
             if (DateTime.Now.Hour == 22)
             {

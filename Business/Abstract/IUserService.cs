@@ -18,6 +18,6 @@ namespace Business.Abstract
         //JWT
         IResult Add(User user);
         IDataResult<List<OperationClaim>> GetClaims(User user);
-        IDataResult<User> GetByMail(string email);
+        IDataResult<User> GetUserByMail(string email);
     }
 }

@@ -11,6 +11,7 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -25,7 +26,7 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin,editor")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
@@ -42,7 +43,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageAdded);
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         public IResult Delete(CarImage carImage)
         {
             FileHelper.Delete(carImage.ImagePath);
@@ -51,9 +52,9 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
-        public IDataResult<CarImage> Get(int id)
+        public IDataResult<CarImage> GetImageById(int imageId)
         {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarId == id));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == imageId)); // default resim gösterme eklenebilir.
         }
 
         public IDataResult<List<CarImage>> GetAll()
@@ -62,7 +63,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
-        public IDataResult<List<CarImage>> GetCarImagesById(int carId)
+        public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageNull(carId));
 
@@ -74,8 +75,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(carId).Data);
         }
 
-        [SecuredOperation("admin")]
-        [ValidationAspect(typeof(CarImageValidator))]
+        //[SecuredOperation("admin")]
+        //[ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageLimitExceded(carImage));
@@ -85,7 +86,7 @@ namespace Business.Concrete
                 return result;
             }
 
-            carImage.ImagePath = FileHelper.Update(_carImageDal.Get(ci=>ci.Id==carImage.Id).ImagePath,file);
+            carImage.ImagePath = FileHelper.Update(_carImageDal.Get(p => p.Id == carImage.Id).ImagePath,file); 
             carImage.ImageDate = DateTime.Now;
             _carImageDal.Update(carImage);
             return new SuccessResult(Messages.CarImageUpdated);
@@ -110,13 +111,14 @@ namespace Business.Concrete
         {
             try
             {
-                string path = @"\Images\logo.jpg";
+                string path = @"\Images\default.jpg";
                 var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
+
                 if (!result)
                 {
-                    List<CarImage> carimage = new List<CarImage>();
-                    carimage.Add(new CarImage { CarId = carId, ImagePath = path, ImageDate = DateTime.Now });
-                    return new SuccessDataResult<List<CarImage>>(carimage);
+                    List<CarImage> carImage = new List<CarImage>();
+                    carImage.Add(new CarImage { CarId = carId, ImagePath = path, ImageDate = DateTime.Now });
+                    return new SuccessDataResult<List<CarImage>>(carImage);
                 }
             }
             catch (Exception exception)
@@ -125,7 +127,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<CarImage>>(exception.Message);
             }
 
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == carId).ToList());
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(p => p.CarId == carId));
         }
     }
 }
