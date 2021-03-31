@@ -40,6 +40,11 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  RentalId = rnt.RentalId,
                                  CarId = car.CarId,
+                                 CategoryId = cat.CategoryId,
+                                 BrandId = brn.BrandId,
+                                 ColorId = clr.ColorId,
+                                 UserId = cus.UserId,
+                                 CustomerId = cus.CustomerId,
                                  CategoryName = cat.CategoryName,
                                  BrandName = brn.BrandName,
                                  ColorName = clr.ColorName,

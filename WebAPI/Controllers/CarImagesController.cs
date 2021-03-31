@@ -21,12 +21,12 @@ namespace WebAPI.Controllers
             _carImageService = carImageService;
         }
 
-        [HttpGet("getimagebyid")]
-        public IActionResult GetImageById(int imageId)
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
-            var result = _carImageService.GetImageById(imageId);
+            var result = _carImageService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -34,12 +34,12 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll()
+        [HttpGet("getimagebyid")]
+        public IActionResult GetImageById(int imageId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
-            var result = _carImageService.GetAll();
+            var result = _carImageService.GetImageById(imageId);
             if (result.Success)
             {
                 return Ok(result);
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
         [HttpGet("getimagesbycarid")]
         public IActionResult GetImagesByCarId(int carId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _carImageService.GetImagesByCarId(carId);
             if (result.Success)

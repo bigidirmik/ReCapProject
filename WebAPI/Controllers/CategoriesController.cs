@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _categoryService.GetAll();
             if (result.Success)
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         [HttpGet("getcategorybyid")]
         public IActionResult GetCategoryById(int categoryId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _categoryService.GetCategoryById(categoryId);
             if (result.Success)

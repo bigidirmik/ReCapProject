@@ -11,13 +11,12 @@ namespace Business.Abstract
     {
         IDataResult<List<User>> GetAll();
         IDataResult<User> GetUserById(int userId);
+        IDataResult<User> GetUserByMail(string email);
 
+        IDataResult<List<OperationClaim>> GetClaims(User user);
+
+        IResult Add(User user);
         IResult Update(User user);
         IResult Delete(User user);
-
-        //JWT
-        IResult Add(User user);
-        IDataResult<List<OperationClaim>> GetClaims(User user);
-        IDataResult<User> GetUserByMail(string email);
     }
 }

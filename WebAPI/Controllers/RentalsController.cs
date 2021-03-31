@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _rentalService.GetAll();
             if (result.Success)
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
         [HttpGet("getrentalbyid")]
         public IActionResult GetRentalById(int rentalId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _rentalService.GetRentalById(rentalId);
             if (result.Success)
@@ -48,12 +48,25 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getrentalbycarid")]
-        public IActionResult GetRentalByCarId(int carId)
+        [HttpGet("getrentalsbycarid")]
+        public IActionResult GetRentalsByCarId(int carId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
-            var result = _rentalService.GetRentalByCarId(carId);
+            var result = _rentalService.GetRentalsByCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getrentalsbycustomerid")]
+        public IActionResult GetRentalsByCustomerId(int customerId)
+        {
+            Thread.Sleep(1000);
+
+            var result = _rentalService.GetRentalsByCustomerId(customerId);
             if (result.Success)
             {
                 return Ok(result);
@@ -64,7 +77,7 @@ namespace WebAPI.Controllers
         [HttpGet("getrentaldetails")]
         public IActionResult GetRentalDetails()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _rentalService.GetRentalDetails();
             if (result.Success)

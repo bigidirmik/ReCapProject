@@ -29,23 +29,16 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-
-        [SecuredOperation("admin")]
-        [ValidationAspect(typeof(CarValidator))]
-        [CacheRemoveAspect("ICarService.Get")]
-        public IResult Add(Car car)
-        {
-            _carDal.Add(car);
-            return new SuccessResult(Messages.CarAdded);
-        }
-
+        //[PerformanceAspect(5)]
+        // verdiğimiz 5 saniye aspect içindeki interval 'dir.
+        // Bu Aspect'i core.utilities.inteceptors da AspectInterceptor'e koyarsak (classattributes.add) her yerde çalışır.
 
         //
         [TransactionScopeAspect]
         public IResult AddTransactionalTest(Car car)
         {
             Add(car);
-            if (car.ModelYear<1980)
+            if (car.ModelYear < 1980)
             {
                 throw new Exception("");
             }
@@ -56,6 +49,25 @@ namespace Business.Concrete
         //
 
 
+
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
+        public IResult Add(Car car)
+        {
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
+        }
+
+        [SecuredOperation("admin")]
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
+        public IResult Update(Car car)
+        {
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
+        }
+
         [SecuredOperation("admin")]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
@@ -64,8 +76,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        [CacheAspect] // key, value pair ile bellekte tutulur
-        //[PerformanceAspect(5)] // verdiğimiz 5 saniye aspect içindeki interval 'dir. // Bu Aspect'i core.utilities.inteceptors da AspectInterceptor'e koyarsak (classattributes.add) her yerde çalışır.
+
+
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 22)
@@ -73,45 +86,6 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarsListed);
-        }
-
-        [CacheAspect]
-        public IDataResult<List<Car>> GetCarByBrandId(int brandId)
-        {
-            if (DateTime.Now.Hour == 22)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
-            }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.BrandId == brandId),Messages.CarsListed);
-        }
-
-        [CacheAspect]
-        public IDataResult<List<Car>> GetCarByCategoryId(int categoryId)
-        {
-            if (DateTime.Now.Hour == 22)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
-            }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.CategoryId == categoryId),Messages.CarsListed);
-        }
-
-        [CacheAspect]
-        public IDataResult<List<Car>> GetCarByColorId(int colorId)
-        {
-            if (DateTime.Now.Hour == 22)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
-            }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ColorId == colorId),Messages.CarsListed);
-        }
-
-        public IDataResult<List<Car>> GetCarByDailyPrice(decimal min, decimal max)
-        {
-            if (DateTime.Now.Hour == 22)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
-            }
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.DailyPrice >= min && car.DailyPrice <= max),Messages.CarsListed);
         }
 
         [CacheAspect]
@@ -124,7 +98,48 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(car => car.CarId == carId));
         }
 
-        public IDataResult<List<Car>> GetCarByModelYear(int min,int max)
+        [CacheAspect]
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.BrandId == brandId),Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<Car>> GetCarsByCategoryId(int categoryId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.CategoryId == categoryId),Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ColorId == colorId),Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<Car>> GetCarsByDailyPrice(decimal min, decimal max)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.DailyPrice >= min && car.DailyPrice <= max),Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<Car>> GetCarsByModelYear(int min,int max)
         {
             if (DateTime.Now.Hour == 22)
             {
@@ -133,7 +148,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ModelYear >= min && car.ModelYear <= max),Messages.CarsListed);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetails() // Expression<Func<Car, bool>> filter = null
         {
             if (DateTime.Now.Hour == 22)
             {
@@ -142,13 +158,44 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.CarsListed);
         }
 
-        [SecuredOperation("admin")]
-        [ValidationAspect(typeof(CarValidator))]
-        [CacheRemoveAspect("ICarService.Get")]
-        public IResult Update(Car car)
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId)
         {
-            _carDal.Update(car);
-            return new SuccessResult(Messages.CarUpdated);
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByBrandId(brandId),Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByColorId(colorId), Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int carId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByCarId(carId), Messages.CarsListed);
+        }
+
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCategoryId(int categoryId)
+        {
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByCategoryId(categoryId), Messages.CarsListed);
         }
     }
 }

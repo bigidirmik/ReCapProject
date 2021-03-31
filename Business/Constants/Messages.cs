@@ -59,6 +59,7 @@ namespace Business.Constants
         public static string RentalInvalid = "Bu araç henüz teslim edilmedi!";
         public static string CarImageLimitExceded = "Bir araç için yalnızca 5 adet resim yükleyebilirsiniz!";
         public static string CarImageCarIdEmpty = "Geçersiz ID!";
+        public static string ImageNotFound = "Görsel bulunamadı!";
 
         //Maintenance
         public static string MaintenanceTime = "Sistem bakımda!";

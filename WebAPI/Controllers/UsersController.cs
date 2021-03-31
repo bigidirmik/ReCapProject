@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _userService.GetAll();
             if (result.Success)
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
         [HttpGet("getuserbyid")]
         public IActionResult GetUserById(int userId)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _userService.GetUserById(userId);
             if (result.Success)
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
         [HttpGet("getuserbymail")]
         public IActionResult GetUserByMail(string email)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
 
             var result = _userService.GetUserByMail(email);
             if (result.Success)
